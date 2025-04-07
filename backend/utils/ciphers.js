@@ -9,7 +9,7 @@ function caesarEncrypt(text, key) {
         const original = char.charCodeAt(0) - base;
         const shifted = (original + key + 26) % 26;
         const encryptedChar = String.fromCharCode(shifted + base);
-        steps.push(`${char} → ${encryptedChar} (${char} + ${key})`);
+        steps.push(`'${char}' → '${encryptedChar}' (Shift '${char}' by +${key} → '${encryptedChar}')`);
         return encryptedChar;
       }
       steps.push(`${char} (unchanged)`);
@@ -33,11 +33,12 @@ function vigenereEncrypt(text, key) {
     if (char.match(/[a-z]/i)) {
       const base = char === char.toUpperCase() ? 65 : 97;
       const k = key[j % key.length].charCodeAt(0) - 65;
+      const keyChar = key[j % key.length];
       const encryptedChar = String.fromCharCode(
         ((char.charCodeAt(0) - base + k) % 26) + base
       );
       steps.push(
-        `${char} → ${encryptedChar} (${char} + ${key[j % key.length]})`
+        `'${char}' → '${encryptedChar}' (Shift using key '${keyChar}' → +${k})`
       );
       result += encryptedChar;
       j++;
@@ -59,11 +60,12 @@ function vigenereDecrypt(text, key) {
     if (char.match(/[a-z]/i)) {
       const base = char === char.toUpperCase() ? 65 : 97;
       const k = key[j % key.length].charCodeAt(0) - 65;
+      const keyChar = key[j % key.length];
       const decryptedChar = String.fromCharCode(
         ((char.charCodeAt(0) - base - k + 26) % 26) + base
       );
       steps.push(
-        `${char} → ${decryptedChar} (${char} - ${key[j % key.length]})`
+        `'${char}' → '${decryptedChar}' (Shift using key '${keyChar}' → +${k})`
       );
       result += decryptedChar;
       j++;
